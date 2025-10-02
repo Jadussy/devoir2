@@ -77,3 +77,59 @@ students.forEach(element => {
 
 
 
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const cats = document.querySelectorAll('img[src^="poosi/"]');
+
+    const movingCats = [];
+
+    cats.forEach(cat => {
+        const catData = {
+            element: cat,
+            x: Math.random() * (window.innerWidth - cat.clientWidth),
+            y: Math.random() * (window.innerHeight - cat.clientHeight),
+            dx: (Math.random() - 0.5) * 4,
+            dy: (Math.random() - 0.5) * 4,
+            rotation: 0,
+            rotationSpeed: (Math.random() - 0.5) * 5
+        };
+        movingCats.push(catData);
+    });
+
+    function animate() {
+        movingCats.forEach(cat => {
+            cat.x += cat.dx;
+            cat.y += cat.dy;
+            cat.rotation += cat.rotationSpeed;
+
+            if (cat.x + cat.element.clientWidth >= window.innerWidth || cat.x <= 0) {
+                cat.dx *= -1;
+                cat.rotationSpeed = (Math.random() - 0.5) * 5;
+            }
+
+            if (cat.y + cat.element.clientHeight >= window.innerHeight || cat.y <= 0) {
+                cat.dy *= -1;
+                cat.rotationSpeed = (Math.random() - 0.5) * 5;
+            }
+
+            cat.element.style.left = cat.x + 'px';
+            cat.element.style.top = cat.y + 'px';
+            cat.element.style.transform = `rotate(${cat.rotation}deg)`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+});
